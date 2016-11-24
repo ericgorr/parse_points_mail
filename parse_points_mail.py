@@ -20,11 +20,16 @@ for file in files:
 
             for part in message.walk():
                 if part.get_content_type() == "text/html":
+
                     htmlContent = part.as_string()
                     soup        = BeautifulSoup( htmlContent, 'html.parser' )
-                    results = soup.find_all( 'b' )
+                    results     = soup.find_all( 'b' )
+
                     for result in results:
-                         if result.string.startswith( "Receive" ):
+
+                        content = result.string
+
+                        if content is not None and content.startswith( "Receive" ):
                             pattern     = "Receive [0-9]* Points\."
                             patternRE   = re.compile( pattern )
                             match       = patternRE.match( result.string )
